@@ -1,0 +1,61 @@
+{
+  "name": "sample-api",
+  "version": "1.0.0",
+  "description": "A RESTful server.",
+  "main": "app/main.js",
+  "scripts": {
+    "check-coverage": "nyc --silent npm run test:unit && nyc --no-clean npm run test:func",
+    "lint": "standard",
+    "test:unit": "mocha \"app/**/*.spec.js\"",
+    "test:func": "mocha test/functional/*.js --slow 1000",
+    "test": "npm run lint && npm run check-coverage",
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "David Passarelli <dpassarelli@camelotcg.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.0.0",
+    "nyc": "^15.1.0",
+    "standard": "^16.0.3"
+  },
+  "mocha": {
+    "reporter": "spec",
+    "file": "test/setup.js",
+    "ui": "bdd"
+  },
+  "standard": {
+    "global": [
+      "expect"
+    ]
+  },
+  "nyc": {
+    "check-coverage": true,
+    "include": [
+      "app/"
+    ],
+    "excludeNodeModules": false,
+    "exclude": [
+      "**/*.spec.js",
+      "test/"
+    ],
+    "per-file": true,
+    "lines": [
+      85,
+      92
+    ],
+    "statements": [
+      85,
+      92
+    ],
+    "functions": [
+      85,
+      92
+    ],
+    "branches": [
+      85,
+      92
+    ]
+  }
+}
