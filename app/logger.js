@@ -52,27 +52,25 @@ function logMessage (info, src) {
 
 pubsub.listen(pubsub.topics.INFO, logMessage)
 
-pubsub.listen(pubsub.topics.ERROR, (err) => {
-  const details = global.JSON.stringify(
-    Object.keys(err).map((key) => {
-      const value = err[key]
+pubsub.listen(pubsub.topics.ERROR, console.error)
 
-      if (typeof value === 'object') {
-        return `${key}: ${global.JSON.stringify(value)}`
-      }
-
-      return `${key}: ${value}`
-    })
-  )
-
-  logMessage(details, `${err.requestId} ERROR`)
-})
-
-pubsub.listen(pubsub.topics.DATA_STORE, (info) => {
-  logMessage(info, 'DATA STORE')
-})
+// pubsub.listen(pubsub.topics.DATA_STORE, (info) => {
+//   logMessage(info, 'DATA STORE')
+// })
 
 pubsub.listen(pubsub.topics.SERVER, (info) => {
+  if (info.reqId) {
+    if (info.request) {
+      logMessage(`${info.reqId} new ${info.request.method} ${info.request.path} ${global.JSON.stringify(info.request.headers)}`, 'REQUEST')
+    }
+
+    if (info.response) {
+      logMessage(`${info.reqId} res ${info.response.status} ${global.JSON.stringify(info.response.headers)}`, 'REQUEST')
+    }
+
+    return
+  }
+
   logMessage(info, 'SERVER')
 })
 
